@@ -1,0 +1,14 @@
+{
+  "name": "netlifyplaywright",
+  "version": "1.0.0",
+  "description": "QA Automation Assessment Task - Playwright",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "Igor",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.17"
+  }
+}
