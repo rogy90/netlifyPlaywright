@@ -1,13 +1,27 @@
 import { test, expect } from '@playwright/test';
 import { fetchSitemapUrls, verifyUrlsAccessible } from '../utils/helpers';
 
+/**
+ * Test Suite: Sitemap and Crawlability Verification
+ * - Verifies sitemap.xml exists
+ * - Checks all URLs from sitemap.xml are accessible
+ * - Validates absence of 'noindex' in robots meta tags
+ * - Ensures key pages are crawlable
+ */
 test.describe('Test Case 2: Sitemap and Crawlability Verification', () => {
-    test('Check if sitemap.xml exists ', async ({ request, baseURL }) => {
+    /**
+     * Test: sitemap.xml should return HTTP 200
+     */
+    test('Check if sitemap.xml exists', async ({ request }) => {
         console.log('Fetching sitemap.xml');
         const res = await request.get('/sitemap.xml');
+        console.log(`sitemap.xml status: ${res.status()}`);
         expect(res.ok(), 'Expected sitemap.xml to return status 200').toBeTruthy();
     });
 
+    /**
+     * Test: all URLs in sitemap should be accessible (status < 400)
+     */
     test('Check if all sitemap URLs are accessible', async ({ request, baseURL }) => {
         console.log('Fetching sitemap URLs');
         const urls = await fetchSitemapUrls(baseURL!);
@@ -15,7 +29,10 @@ test.describe('Test Case 2: Sitemap and Crawlability Verification', () => {
         console.log('Completed accessibility check for all sitemap URLs');
     });
 
-    test('Test if all pages do not have robots noindex meta tags', async ({ page, baseURL }) => {
+    /**
+     * Test: pages should not include a robots meta tag with 'noindex'
+     */
+    test('Check if all pages do not have robots noindex meta tags', async ({ page, baseURL }) => {
         console.log('Fetching sitemap URLs for robots meta check');
         const urls = await fetchSitemapUrls(baseURL!);
 
@@ -27,14 +44,17 @@ test.describe('Test Case 2: Sitemap and Crawlability Verification', () => {
             if (count > 0) {
                 const content = await robotsMeta.first().getAttribute('content');
                 console.log(`Robots meta content for ${url}: "${content}"`);
-                expect(content).not.toMatch(/noindex/i);
+                expect(content, `Robots meta tag for ${url} should not include 'noindex'`).not.toMatch(/noindex/i);
             } else {
                 console.log(`No robots meta tag found on ${url}`);
             }
         }
     });
 
-    test('4. Verify that important pages are crawlable', async ({ request, baseURL }) => {
+    /**
+     * Test: verify core pages are reachable
+     */
+    test('Verify that important pages are crawlable', async ({ request }) => {
         console.log('Verifying important pages are crawlable');
         const importantPages = ['/', '/pricing/', '/docs/', '/blog/'];
 
@@ -42,10 +62,7 @@ test.describe('Test Case 2: Sitemap and Crawlability Verification', () => {
             console.log(`Verifying ${path}`);
             const res = await request.get(path);
             console.log(`  ${path} returned status ${res.status()}`);
-            expect(
-                res.status(),
-                `${path} should be accessible (status < 400)`
-            ).toBeLessThan(400);
+            expect(res.status(), `${path} should be accessible (status < 400)`).toBeLessThan(400);
         }
     });
 });
