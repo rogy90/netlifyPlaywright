@@ -95,8 +95,8 @@ npx playwright test --help
 I chose to test only in Chrome. I used the Page Object Model (POM) pattern to keep tests clean and easy to maintain. All page selectors and actions are in `pages/HomePage.ts`, test data is in `data/testData.ts`, and test steps are in `tests/01_newsletterFormTests.spec.ts` etc. This clear split—`pages/` for page classes, `data/` for values, and `tests/` for tests—makes adding or changing tests simple.
 
 **Task 2: Sitemap & Crawlability Verification**  
-I used the Sitemapper library to fetch `sitemap.xml`. In `utils/helpers.ts`, I created two functions: `fetchSitemapUrls(baseURL)` to get all URLs, and `verifyUrlsAccessible(request, urls)` to check each URL returns a good status. I also test for no `<meta name=\"robots\" content=\"noindex\">` tags and check important pages (`/`, `/pricing/`, `/docs/`, `/blog/`). The test file (`tests/02_sitemapTests.spec.ts`) stays short and clear.  
-_Repo: https://github.com/rogy90/netlifyPlaywright_
+I used the Sitemapper library to fetch `sitemap.xml`. In `utils/helpers.ts`, I created two functions: `fetchSitemapUrls(baseURL)` to get all URLs, and `verifyUrlsAccessible(request, urls)` to check each URL returns a good status. I also test for no `<meta name=\"robots\" content=\"noindex\">` tags and check important pages (`/`, `/pricing/`, `/docs/`, `/blog/`). The test file (`tests/02_sitemapTests.spec.ts`) stays short and clear. Here is a repository I use as solution for me after I read https://github.com/microsoft/playwright/issues/1408. 
+_Repo: https://github.com/seantomburke/sitemapper_
 
 **Task 3: 404 Link Verification**  
 I followed Checkly’s guide for finding broken links with Playwright: https://www.checklyhq.com/learn/playwright/how-to-detect-broken-links/. In `utils/helpers.ts`, `getAllLinksFromPage(page)` finds visible links, skips `mailto:` and anchors, and returns all URLs. Then the test (`tests/03_404LinkVerification.spec.ts`) checks none return 404. This method covers the site with simple code and clear results.
