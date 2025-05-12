@@ -10,5 +10,7 @@ export function generateRandomEmail(): string {
 export const invalidEmails = [
     'plaintextmail',
     'user@.com',
-    'missingatsign.com'
+    'missingatsign.com',
+    '@domain.com',
+    ''
 ];

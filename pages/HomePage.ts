@@ -1,4 +1,3 @@
-// pages/HomePage.ts
 import { Page, Locator, expect } from '@playwright/test';
 
 export class HomePage {
@@ -15,7 +14,7 @@ export class HomePage {
         this.emailInput = page.locator('input[name="email"]');
         this.submitButton = page.locator('input.button-secondary');
         this.thankYouHeading = page.getByRole('heading', { name: 'Thank you for signing up!' });
-        this.errorMessage = this.newsletterSection.locator('.hs-error-msg');  // <— dodano
+        this.errorMessage = this.newsletterSection.locator('.hs-error-msg');
     }
 
     async navigateToHomePage() {

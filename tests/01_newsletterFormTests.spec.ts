@@ -12,18 +12,13 @@ test.describe('Test Case 1: Lead Capture Form Validation', () => {
         console.log('Landed on home page');
     });
 
-    test.afterAll(async ({ page }) => {
-        await page.close();
-        console.log('Closing the page');
-    });
-
     test('Verify the newsletter form is present', async () => {
         console.log('Checking that the newsletter form and its elements are visible');
         await homePage.expectFormVisible();
         console.log('Newsletter form is present and visible');
     });
 
-    test('should submit with valid email', async () => {
+    test('Check submit with valid email', async () => {
         const email = generateRandomEmail();
         console.log(`Submitting valid email: ${email}`);
         await homePage.submitEmail(email);
@@ -31,7 +26,7 @@ test.describe('Test Case 1: Lead Capture Form Validation', () => {
         console.log('Thank-you message is visible for valid submission');
     });
 
-    test('should show validation error for each invalid email', async () => {
+    test('Check show validation error for each invalid email', async () => {
         for (const invalidFormat of invalidEmails) {
             console.log(`Testing invalid email format: ${invalidFormat}`);
             await homePage.submitEmail(invalidFormat);
